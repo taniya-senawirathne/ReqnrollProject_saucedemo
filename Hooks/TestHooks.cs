@@ -2,9 +2,9 @@
 
 using OpenQA.Selenium;
 using Reqnroll;
-using ReqnrollProject_saucedemo.Drivers;
+using ReqnrollProject_Saucedemo.Drivers;
 
-namespace ReqnrollProject_saucedemo.Hooks
+namespace ReqnrollProject_Saucedemo.Hooks
 {
     [Binding]
     public class TestHooks
@@ -21,7 +21,7 @@ namespace ReqnrollProject_saucedemo.Hooks
         {
             var driver = DriverFactory.InitDriver();
             _context["Driver"] = driver;
-            driver.Navigate().GoToUrl("https://www.saucedemo.com/");
+            driver.Navigate().GoToUrl(Support.TestSettings.BaseUrl);
         }
 
         [AfterScenario]

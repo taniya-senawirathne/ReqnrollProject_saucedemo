@@ -1,4 +1,4 @@
-namespace ReqnrollProject_saucedemo.StepDefinitions
+namespace ReqnrollProject_Saucedemo.StepDefinitions
 {
     [Binding]
     public sealed class CheckoutStepDefinitions

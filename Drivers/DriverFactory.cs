@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
-namespace ReqnrollProject_saucedemo.Drivers
+namespace ReqnrollProject_Saucedemo.Drivers
 {
     public class DriverFactory
     {
