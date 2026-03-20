@@ -1,10 +1,9 @@
-Feature: Checkout
+Feature: Checkout functionality
 
-Simple calculator for adding two numbers
-
-@mytag
-Scenario: Add two numbers
-	Given the first number is 50
-	And the second number is 70
-	When the two numbers are added
-	Then the result should be 120
+  Scenario: Successful checkout with valid user
+    Given I login with valid credentials
+    When I add a product to the cart
+    And I proceed to checkout
+    And I enter checkout details
+    And I confirm the order
+    Then I should see order confirmation message
