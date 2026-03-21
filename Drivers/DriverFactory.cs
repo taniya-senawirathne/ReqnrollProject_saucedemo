@@ -9,6 +9,9 @@ namespace ReqnrollProject_Saucedemo.Drivers
         {
             var options = new ChromeOptions();
             options.AddArgument("--start-maximized");
+
+           options.AddUserProfilePreference("profile.password_manager_leak_detection", false);
+                      
             return new ChromeDriver(options);
         }
     }

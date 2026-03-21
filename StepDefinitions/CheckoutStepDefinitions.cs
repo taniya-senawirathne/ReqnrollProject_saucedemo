@@ -6,15 +6,26 @@ using ReqnrollProject_Saucedemo.Support;
 namespace ReqnrollProject_Saucedemo.StepDefinitions
 {
     [Binding]
-    public sealed class CheckoutStepDefinitions(IWebDriver driver)
+    public sealed class CheckoutStepDefinitions
     {
+        private readonly IWebDriver _driver;
+        private readonly LoginPage _loginPage;
+        private readonly InventoryPage _inventoryPage;
+        private readonly CartPage _cartPage;
+        private readonly CheckoutInfoPage _checkoutInfoPage;
+        private readonly CheckoutOverviewPage _checkoutOverviewPage;
+        private readonly CheckoutCompletePage _checkoutCompletePage;
 
-        private readonly LoginPage _loginPage = new(driver);
-        private readonly InventoryPage _inventoryPage = new(driver);
-        private readonly CartPage _cartPage = new(driver);
-        private readonly CheckoutInfoPage _checkoutInfoPage = new(driver);
-        private readonly CheckoutOverviewPage _checkoutOverviewPage = new(driver);
-        private readonly CheckoutCompletePage _checkoutCompletePage = new(driver);
+        public CheckoutStepDefinitions(ScenarioContext context)
+        {
+            _driver = (IWebDriver)context["Driver"];
+            _loginPage = new(_driver);
+            _inventoryPage = new(_driver);
+            _cartPage = new(_driver);
+            _checkoutInfoPage = new(_driver);
+            _checkoutOverviewPage = new(_driver);
+            _checkoutCompletePage = new(_driver);
+        }
 
         [Given("I am logged in as a standard user")]
         public void GivenIAmLoggedInAsAStandardUser()
