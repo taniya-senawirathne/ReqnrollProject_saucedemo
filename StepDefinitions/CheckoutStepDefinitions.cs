@@ -30,7 +30,6 @@ namespace ReqnrollProject_Saucedemo.StepDefinitions
         [Given("I am logged in as a standard user")]
         public void GivenIAmLoggedInAsAStandardUser()
         {
-            //_loginPage.NavigateTo();
             _loginPage.Login(TestSettings.Username, TestSettings.Password);
             Assert.That(_inventoryPage.IsLoaded(), Is.True, "Expected to be on the inventory page after login.");
         }
