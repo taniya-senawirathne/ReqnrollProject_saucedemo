@@ -1,0 +1,75 @@
+name: Selenium BDD Tests
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:      
+
+jobs:
+  test:
+    name: Run Reqnroll Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Source code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. .NET runtime
+      - name: Set up .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      #  3. Chrome + matching ChromeDriver
+      #    The ubuntu-latest runner ships with Chrome pre-installed.
+      #    setup-chrome pins the browser and driver to the same version,
+      #    eliminating the version-mismatch problem from the NuGet package.
+      - name: Set up Chrome
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: stable
+
+      # 4. Dependencies
+      - name: Restore NuGet packages
+        run: dotnet restore
+
+      # 5. Build
+      - name: Build
+        run: dotnet build --no-restore --configuration Release
+
+      # 6. Test
+      #    HEADLESS=true tells DriverFactory to add --headless flags.
+      #    No display is available on the runner, so this is required.
+      - name: Run tests
+        env:
+          HEADLESS: "true"
+        run: >
+          dotnet test
+          --no-build
+          --configuration Release
+          --logger "trx;LogFileName=results.trx"
+          --logger "console;verbosity=normal"
+          --results-directory ./TestResults
+
+      # 7. Publish test results
+      - name: Publish NUnit results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: NUnit Results
+          path: TestResults/*.trx
+          reporter: dotnet-trx
+
+      # 8. Upload Living Doc report as artifact
+      - name: Upload Living Doc report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: living-doc-report
+          path: |
+            **/LivingDoc.html
+            **/LivingDoc.ndjson
+          retention-days: 14
